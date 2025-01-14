@@ -1,0 +1,101 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "bytes"
+msgstr "字节"
+
+msgid "%"
+msgstr "百分比"
+
+msgid "Allow or deny specific MAC addresses to associate with this network."
+msgstr "允许或拒绝特定 MAC 地址连接此网络。"
+
+msgid "Select the encryption method used for this wireless network."
+msgstr "选择该无线网络使用的加密方法。"
+
+msgid "The time interval between beacon transmissions."
+msgstr "设置AP周期性发出的信标帧时间间隔, 以此来告诉外界自己无线网络的存在。"
+
+msgid "ISO/IEC 3166 alpha2 country code."
+msgstr "ISO/IEC 3166-2 国家代码"
+
+msgid "Target Wake Time"
+msgstr "目标唤醒时间（TWT）"
+
+msgid "Router will be in a sleep state during the rest of the time period else it receives a transmission command."
+msgstr "开启后路由器则会处于休眠状态只有接受到了传输指令路由器才会进行连接, 部分终端驱动较旧，设置该功能可能存在一些兼容性问题。"
+
+msgid "Enable MU-MIMO."
+msgstr "启用多用户多输入多输出 (MU-MIMO), 启用后可显著提高网络总吞吐量和总容量。"
+
+msgid "Enable Wireless HWNAT."
+msgstr "启用无线硬件快速转发引擎, 启用后可显著提高网络速度。"
+
+msgid "MU-MIMO DL"
+msgstr "下行 MU-MIMO"
+
+msgid "Enable MU-MIMO DL."
+msgstr "启用下行多用户多输入多输出 (MU-MIMO), 启用后可显著提高网络总吞吐量和总容量。"
+
+msgid "MU-MIMO UL"
+msgstr "上行 MU-MIMO"
+
+msgid "Enable MU-MIMO UL."
+msgstr "启用上行多用户多输入多输出 (MU-MIMO), 启用后可显著提高网络总吞吐量和总容量。"
+
+msgid "OFDMA DL"
+msgstr "下行 OFDMA"
+
+msgid "Enable OFDMA DL."
+msgstr "启用下行正交频分复用 (OFDMA), 启用后实现高速串行数据的并行传输进而降低干扰。"
+
+msgid "OFDMA UL"
+msgstr "上行 OFDMA"
+
+msgid "Enable OFDMA UL."
+msgstr "启用上行正交频分复用 (OFDMA), 启用后实现高速串行数据的并行传输进而降低干扰。"
+
+msgid "A-MSDU"
+msgstr "MSDU聚合（A-MSDU）"
+
+msgid "Enable A-MSDU aggregation."
+msgstr "启用后将多个无线帧组合成单个更长的无线帧传输，然后一次进行传输，以此来减少竞争开销，提高吞吐量，最终提高整体网络效率。"
+
+msgid "Auto Block ACK"
+msgstr "自动块确认"
+
+msgid "Enable automatic Block ACK."
+msgstr "启用后自动减少确认帧的数量，降低了信道上的冲突和干扰。"
+
+msgid "U-APSD"
+msgstr "U-APSD 省电模式"
+
+msgid "Enable Unscheduled Automatic Power Save Delivery."
+msgstr "启用后在一个信标帧周期内，终端会不断切换睡眠和工作的状态，从而达到节能的目的。"
+
+msgid "Kick low RSSI station threshold"
+msgstr "弱信号剔除阈值"
+
+msgid "Station associate threshold"
+msgstr "弱信号接入阈值"
+
+msgid "Wireless HWNAT"
+msgstr "无线硬件加速"
+
+msgid "Roam steering threshold"
+msgstr "漫游引导阈值"
+
+msgid "Roam target bssid"
+msgstr "漫游引导目标BSSID"
+
+msgid "Band Steering"
+msgstr "5Ghz优先"
+
+msgid "Allows the AP to guide dual-band clients to the 5 GHz band."
+msgstr "启用后允许引导支持5Ghz频段的设备从2.4Ghz频段漫游到5Ghz频段。"
+
+msgid "Wireless configuration error"
+msgstr "无线网络设置错误"
+
+msgid "At least one MBSSID needs to be reserved"
+msgstr "至少需要保留1个MBSSID"

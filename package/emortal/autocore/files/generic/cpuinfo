@@ -1,0 +1,42 @@
+#!/bin/sh
+
+. /etc/openwrt_release
+
+CPUINFO_PATH="/proc/cpuinfo"
+CPUFREQ_PATH="/sys/devices/system/cpu/cpufreq"
+
+cpu_arch="$(awk -F ': ' '/model name/ {print $2}' "$CPUINFO_PATH" | head -n1)"
+[ -n "${cpu_arch}" ] || cpu_arch="Unknown"
+
+case "$DISTRIB_TARGET" in
+"x86"/*)
+	cpu_cores="$(grep "core id" "$CPUINFO_PATH" | sort -u | wc -l)C $(grep -c "processor" "$CPUINFO_PATH")T" ;;
+*)
+	cpu_cores="$(grep -c "processor" "$CPUINFO_PATH")" ;;
+esac
+
+case "$DISTRIB_TARGET" in
+"bcm27xx"/*)
+	cpu_freq="$(( $(vcgencmd measure_clock arm | awk -F '=' '{print $2}') / 1000000 ))Mhz" ;;
+"bcm53xx"/*)
+	cpu_freq="$(nvram get clkfreq | awk -F ',' '{print $1}')MHz" ;;
+"mediatek"/*|"mvebu"/*)
+	cpu_freq="" ;;
+"mvebu/cortexa72")
+	cpu_freq="$(awk '{printf("%.fMHz", $0 / 1000)}' "$CPUFREQ_PATH/policy0/cpuinfo_cur_freq")"
+	big_cpu_freq="$(awk '{printf("%.fMHz ", $0 / 1000)}' "$CPUFREQ_PATH/policy2/cpuinfo_cur_freq")"
+	;;
+"rockchip"/*)
+	cpu_freq="$(awk '{printf("%.fMHz", $0 / 1000)}' "$CPUFREQ_PATH/policy0/cpuinfo_cur_freq")"
+	[ ! -e "$CPUFREQ_PATH/policy4/cpuinfo_cur_freq" ] || \
+		big_cpu_freq="$(awk '{printf("%.fMHz ", $0 / 1000)}' "$CPUFREQ_PATH/policy4/cpuinfo_cur_freq")"
+	;;
+"x86"/*)
+	cpu_freq="$(awk -F ': ' '/MHz/ {print $2}' "$CPUINFO_PATH" | head -n1)MHz" ;;
+*)
+	[ ! -e "$CPUFREQ_PATH/policy0/cpuinfo_cur_freq" ] || \
+		cpu_freq="$(awk '{printf("%.fMHz", $0 / 1000)}' "$CPUFREQ_PATH/policy0/cpuinfo_cur_freq")"
+	;;
+esac
+
+echo -n "$cpu_cores Core(s) on $cpu_arch"
