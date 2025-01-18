@@ -9,21 +9,27 @@ include $(INCLUDE_DIR)/kernel.mk
 PKG_NAME:=mt_wifi
 
 ifeq ($(CONFIG_MTK_CHIP_MT7981),y)
-PKG_SUFFIX:=mt7981
+	PKG_SUFFIX:=mt7981
 else
-ifeq ($(CONFIG_MTK_CHIP_MT7986),y)
-PKG_SUFFIX:=mt7986
-endif
+	ifeq ($(CONFIG_MTK_CHIP_MT7986),y)
+		PKG_SUFFIX:=mt7986
+	endif
 endif
 
 ifeq ($(CONFIG_MTK_MT_WIFI_DRIVER_VERSION_7661),y)
-PKG_SOURCE:=mt79xx_20220907-8b55f5.tar.xz
-PKG_VERSION:=7.6.6.1-$(PKG_SUFFIX)
-PATCH_DIR:=patches-7661
+	PKG_SOURCE_VERSION:=20220907-8b55f5
+	PKG_SOURCE:=mt79xx_$(PKG_NAME)_$(PKG_SOURCE_VERSION).tar.xz
+	PKG_SOURCE_URL:=https://github.com/NekokeCore/mt79xx-$(PKG_NAME)-collections/releases/download/mt79xx_$(PKG_NAME)_$(PKG_SOURCE_VERSION)
+	PKG_HASH:=6d338f3dcb6844bdc420619388b6de7575065eece55b2e00d3bd43d6ba92cb4b
+	PKG_VERSION:=7.6.6.1-$(PKG_SUFFIX)
+	PATCH_DIR:=patches-7661
 else
-PKG_SOURCE:=mt79xx_20231229-4012a0.tar.xz
-PKG_VERSION:=7.6.7.2-$(PKG_SUFFIX)
-PATCH_DIR:=patches-7672
+	PKG_SOURCE_VERSION:=20231229-4012a0
+	PKG_SOURCE:=mt79xx_$(PKG_NAME)_$(PKG_SOURCE_VERSION).tar.xz
+	PKG_SOURCE_URL:=https://github.com/NekokeCore/mt79xx-$(PKG_NAME)-collections/releases/download/mt79xx_$(PKG_NAME)_$(PKG_SOURCE_VERSION)
+	PKG_HASH:=763bfc104337ef5ff45602db0371141ecf59e5cfde6ef8614a8f16a3f2f274c6
+	PKG_VERSION:=7.6.7.2-$(PKG_SUFFIX)
+	PATCH_DIR:=patches-7672
 endif
 
 PKG_BUILD_DEPENDS:=warp
@@ -288,14 +294,14 @@ include $(INCLUDE_DIR)/package.mk
 TAR_CMD=$(HOST_TAR) -C $(1)/ $(TAR_OPTIONS)
 
 define KernelPackage/mt_wifi
-  CATEGORY:=MTK Properties
-  TITLE:=MTK wifi AP driver
-  DEPENDS:=+wifi-dats +kmod-conninfra +kmod-mediatek_hnat +kmod-warp
-  FILES:=$(PKG_BUILD_DIR)/mt_wifi_ap/mt_wifi.ko \
+	CATEGORY:=MTK Properties
+	TITLE:=MTK wifi AP driver
+	DEPENDS:=+wifi-dats +kmod-conninfra +kmod-mediatek_hnat +kmod-warp
+	FILES:=$(PKG_BUILD_DIR)/mt_wifi_ap/mt_wifi.ko \
 	$(PKG_BUILD_DIR)/mt_wifi/embedded/plug_in/warp_proxy/mtk_warp_proxy.ko
-  AUTOLOAD:=$(call AutoProbe,mt_wifi mtk_warp_proxy)
-  SUBMENU:=Drivers
-  MENU:=1
+	AUTOLOAD:=$(call AutoProbe,mt_wifi mtk_warp_proxy)
+	SUBMENU:=Drivers
+	MENU:=1
 endef
 
 define KernelPackage/mt_wifi/config
@@ -321,51 +327,51 @@ define Build/Compile
 endef
 
 define KernelPackage/mt_wifi/install
-rm -rf $(1)/lib/firmware/; \
-$(INSTALL_DIR) $(1)/lib/firmware/; \
-if [ "$$(CONFIG_MTK_CHIP_MT7986)" = "y" ] ; then \
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7986/rebb/MT7986_* $(1)/lib/firmware/; \
-fi ; \
-if [ "$$(CONFIG_MTK_CHIP_MT7916)" = "y" ] ; then \
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7916/rebb/MT7916_* $(1)/lib/firmware/; \
-fi ; \
-if [ "$$(CONFIG_MTK_CHIP_MT7981)" = "y" ] ; then \
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7981/rebb/MT7981_* $(1)/lib/firmware/; \
-fi ; \
-if [ "$$(CONFIG_MTK_WIFI_FW_BIN_LOAD)" = "y" ]; then \
+	rm -rf $(1)/lib/firmware/; \
+	$(INSTALL_DIR) $(1)/lib/firmware/; \
 	if [ "$$(CONFIG_MTK_CHIP_MT7986)" = "y" ] ; then \
-		if [ "$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7986)" != "" ]; then \
-			$(INSTALL_BIN) ./files/$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7986)/* $(1)/lib/firmware/; \
-		else \
-			$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7986/rebb/WIFI_RAM_CODE_MT7986.bin \
-			$(PKG_BUILD_DIR)/bin/mt7986/rebb/WIFI_RAM_CODE_MT7986_MT7975.bin \
-			$(PKG_BUILD_DIR)/bin/mt7986/rebb/mt7986_patch_e1_hdr.bin \
-			$(PKG_BUILD_DIR)/bin/mt7986/rebb/mt7986_patch_e1_hdr_mt7975.bin \
-			$(PKG_BUILD_DIR)/bin/mt7986/rebb/7986_WACPU_RAM_CODE_release.bin \
-			$(1)/lib/firmware/; \
-		fi ; \
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7986/rebb/MT7986_* $(1)/lib/firmware/; \
 	fi ; \
 	if [ "$$(CONFIG_MTK_CHIP_MT7916)" = "y" ] ; then \
-		if [ "$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7916)" != "" ]; then \
-			$(INSTALL_BIN) ./files/$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7916)/* $(1)/lib/firmware/; \
-		else \
-			$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7916/rebb/7916_WACPU_RAM_CODE_release.bin \
-			$(PKG_BUILD_DIR)/bin/mt7916/rebb/mt7916_patch_e1_hdr.bin \
-			$(PKG_BUILD_DIR)/bin/mt7916/rebb/WIFI_RAM_CODE_MT7916.bin \
-			$(1)/lib/firmware/; \
-		fi ; \
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7916/rebb/MT7916_* $(1)/lib/firmware/; \
 	fi ; \
 	if [ "$$(CONFIG_MTK_CHIP_MT7981)" = "y" ] ; then \
-		if [ "$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7981)" != "" ]; then \
-			$(INSTALL_BIN) ./files/$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7981)/* $(1)/lib/firmware/; \
-		else \
-			$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7981/rebb/WIFI_RAM_CODE_MT7981.bin \
-			$(PKG_BUILD_DIR)/bin/mt7981/rebb/7981_WACPU_RAM_CODE_release.bin \
-			$(PKG_BUILD_DIR)/bin/mt7981/rebb/mt7981_patch_e1_hdr.bin \
-			$(1)/lib/firmware/; \
-		fi ; \
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7981/rebb/MT7981_* $(1)/lib/firmware/; \
 	fi ; \
-fi
+	if [ "$$(CONFIG_MTK_WIFI_FW_BIN_LOAD)" = "y" ]; then \
+		if [ "$$(CONFIG_MTK_CHIP_MT7986)" = "y" ] ; then \
+			if [ "$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7986)" != "" ]; then \
+				$(INSTALL_BIN) ./files/$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7986)/* $(1)/lib/firmware/; \
+			else \
+				$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7986/rebb/WIFI_RAM_CODE_MT7986.bin \
+				$(PKG_BUILD_DIR)/bin/mt7986/rebb/WIFI_RAM_CODE_MT7986_MT7975.bin \
+				$(PKG_BUILD_DIR)/bin/mt7986/rebb/mt7986_patch_e1_hdr.bin \
+				$(PKG_BUILD_DIR)/bin/mt7986/rebb/mt7986_patch_e1_hdr_mt7975.bin \
+				$(PKG_BUILD_DIR)/bin/mt7986/rebb/7986_WACPU_RAM_CODE_release.bin \
+				$(1)/lib/firmware/; \
+			fi ; \
+		fi ; \
+		if [ "$$(CONFIG_MTK_CHIP_MT7916)" = "y" ] ; then \
+			if [ "$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7916)" != "" ]; then \
+				$(INSTALL_BIN) ./files/$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7916)/* $(1)/lib/firmware/; \
+			else \
+				$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7916/rebb/7916_WACPU_RAM_CODE_release.bin \
+				$(PKG_BUILD_DIR)/bin/mt7916/rebb/mt7916_patch_e1_hdr.bin \
+				$(PKG_BUILD_DIR)/bin/mt7916/rebb/WIFI_RAM_CODE_MT7916.bin \
+				$(1)/lib/firmware/; \
+			fi ; \
+		fi ; \
+		if [ "$$(CONFIG_MTK_CHIP_MT7981)" = "y" ] ; then \
+			if [ "$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7981)" != "" ]; then \
+				$(INSTALL_BIN) ./files/$$(CONFIG_MTK_MT_WIFI_FIRMWARE_PATH_MT7981)/* $(1)/lib/firmware/; \
+			else \
+				$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7981/rebb/WIFI_RAM_CODE_MT7981.bin \
+				$(PKG_BUILD_DIR)/bin/mt7981/rebb/7981_WACPU_RAM_CODE_release.bin \
+				$(PKG_BUILD_DIR)/bin/mt7981/rebb/mt7981_patch_e1_hdr.bin \
+				$(1)/lib/firmware/; \
+			fi ; \
+		fi ; \
+	fi
 endef
 
 $(eval $(call KernelPackage,mt_wifi))

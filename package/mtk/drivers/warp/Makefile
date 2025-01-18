@@ -7,9 +7,12 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=warp
+PKG_VERSION:=7.6.7.2
 
-PKG_VERSION:=20231229-5f71ec
-PKG_SOURCE:=warp_20231229-5f71ec.tar.xz
+PKG_SOURCE_VERSION:=20231229-5f71ec
+PKG_SOURCE:=mt79xx_$(PKG_NAME)_$(PKG_SOURCE_VERSION).tar.xz
+PKG_SOURCE_URL:=https://github.com/NekokeCore/mt79xx-$(PKG_NAME)-collections/releases/download/mt79xx_$(PKG_NAME)_$(PKG_SOURCE_VERSION)
+PKG_HASH:=e7e2c2221207f4e72ff7f839ddfa5d7fb87b1be86dee608838a94f26124e6aaf
 
 PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_NAME)
 PKG_KCONFIG:= \
@@ -28,13 +31,13 @@ include $(INCLUDE_DIR)/package.mk
 TAR_CMD=$(HOST_TAR) -C $(1)/.. $(TAR_OPTIONS)
 
 define KernelPackage/warp
-  CATEGORY:=MTK Properties
-  TITLE:=MTK warp driver
-  DEPENDS:= +kmod-mediatek_hnat
-  FILES:=$(PKG_BUILD_DIR)/mtk_warp.ko
-  AUTOLOAD:=$(call AutoLoad,60,mtk_warp)
-  SUBMENU:=Drivers
-  MENU:=1
+	CATEGORY:=MTK Properties
+	TITLE:=MTK warp driver
+	DEPENDS:= +kmod-mediatek_hnat
+	FILES:=$(PKG_BUILD_DIR)/mtk_warp.ko
+	AUTOLOAD:=$(call AutoLoad,60,mtk_warp)
+	SUBMENU:=Drivers
+	MENU:=1
 endef
 
 define KernelPackage/warp/config
