@@ -1,0 +1,14 @@
+--- a/src/nft_ext_fullcone.c	2025-01-19 05:28:58.953730811 +0000
++++ b/src/nft_ext_fullcone.c	2025-01-19 05:29:35.084733717 +0000
+@@ -219,9 +219,9 @@
+ 	range->flags = priv->flags;
+ 	if (priv->sreg_proto_min) {
+ 		range->min_proto.all = (__force __be16)
+-		    nft_reg_load16(&regs->data[priv->sreg_proto_min]);
++		    nft_reg_load16((u32 *)&regs->data[priv->sreg_proto_min]);
+ 		range->max_proto.all = (__force __be16)
+-		    nft_reg_load16(&regs->data[priv->sreg_proto_max]);
++		    nft_reg_load16((u32 *)&regs->data[priv->sreg_proto_max]);
+ 	}
+ }
+ 

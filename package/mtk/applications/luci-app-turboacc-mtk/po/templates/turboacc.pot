@@ -177,7 +177,7 @@ msgid "TurboACC settings"
 msgstr ""
 
 #: applications/luci-app-turboacc/htdocs/luci-static/resources/view/turboacc.js:190
-msgid "XT_FULLCONE_NAT"
+msgid "NFT_FULLCONE"
 msgstr ""
 
 #: applications/luci-app-turboacc/htdocs/luci-static/resources/view/turboacc.js:191
