@@ -49,8 +49,8 @@ To build your own firmware you need a GNU/Linux, BSD or MacOSX system (case sens
   - For more details, please see [Build system setup](https://openwrt.org/docs/guide-developer/build-system/install-buildsystem) documentation.
 
   ### Quickstart
-  1. Run `git clone --depth=1 https://github.com/hanwckf/immortalwrt-mt798x.git` to clone the source code.
-  2. Run `cd immortalwrt-mt798x` to enter source directory.
+  1. Run `git clone --depth=1 -b master https://github.com/oppen321/immortalwrt-mt798x-24.10.git` to clone the source code.
+  2. Run `cd immortalwrt-mt798x-24.10.git` to enter source directory.
   3. Run `./scripts/feeds update -a` to obtain all the latest package definitions defined in feeds.conf / feeds.conf.default
   4. Run `./scripts/feeds install -a` to install symlinks for all obtained packages into package/feeds/
   5. Copy the configuration file for your device from the `defconfig` directory to the project root directory and rename it `.config`
